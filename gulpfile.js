@@ -13,14 +13,19 @@ var through = require('through2');
 var gutil = require('gulp-util');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
+var del = require('del');
 	
-gulp.task('ts-es6', function(){
+gulp.task('ts-es6', ['clean'], function(){
 	return gulp.src("*.ts")
 			.pipe(sourcemaps.init())
 			.pipe(tsc(tsProject))
 			.pipe(sourcemaps.write())
 			.pipe(gulp.dest("./dist/es6/"));
 });	
+
+gulp.task('clean', function(){
+    return del("./dist");
+});
 
 gulp.task('build', ['ts-es6'], function(){
 	var bundledStream = through();
@@ -46,7 +51,8 @@ gulp.task('build', ['ts-es6'], function(){
 			debug: true,
 			transform: [['babelify', {
 				presets: ["es2015"],
-				plugins: ["transform-runtime"]
+				plugins: ["transform-runtime"],
+                sourceMap: true
 			}]]
 		});
 		
