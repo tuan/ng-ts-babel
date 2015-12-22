@@ -19,7 +19,7 @@ gulp.task('ts-es6', ['clean'], function(){
 	return gulp.src("*.ts")
 			.pipe(sourcemaps.init())
 			.pipe(tsc(tsProject))
-			.pipe(sourcemaps.write())
+			.pipe(sourcemaps.write({sourceRoot: '../../'}))
 			.pipe(gulp.dest("./dist/es6/"));
 });	
 
